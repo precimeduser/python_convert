@@ -6,6 +6,12 @@ import os, sys, argparse, time, logging, getpass
 import matplotlib.pyplot as plt
 from summary_stats_Utils import *
 
+MASTHEAD = "*********************************************************************\n"
+MASTHEAD += "* Align summary statistics to a reference set of SNPs\n"
+MASTHEAD += "* version 0.1\n"
+MASTHEAD += "* GNU General Public License v3\n"
+MASTHEAD += "*********************************************************************\n"
+
 def read_sum_dat(sumFile, logger, kargs):
     '''
     Read give summary statistics.
@@ -354,6 +360,11 @@ def convert_sum():
     logger = logging.getLogger()
     logger.addHandler(logging.FileHandler(logfile))
     logger.setLevel(logging.DEBUG)
+
+    logging_header = make_logging_header('sumStats2ref.py', MASTHEAD, parser, args)
+    logger.info(logging_header)
+    print(logging_header)
+
     sumDat = read_sum_dat(args.F, logger, args)
     if args.Ref:
         refDat = read_ref_dat(args.Ref, logger)

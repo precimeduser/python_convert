@@ -408,3 +408,14 @@ def basic_QC_direct(sumDat, outdir, dirCol='DIR', dirMth=1, dirDth=.5,
     tmpD.to_csv(outfile, na_rep='NA', compression='gzip', index=False, sep='\t')
     return (sumDat.loc[Idx==True])
 
+def make_logging_header(script_name, MASTHEAD, parser, args):
+    defaults = vars(parser.parse_args(''))
+    opts = vars(args)
+    non_defaults = [x for x in opts.keys() if opts[x] != defaults[x]]
+    header = MASTHEAD
+    header += "Call: \n"
+    header += './{0} \\\n'.format(script_name)
+    options = ['--'+x.replace('_','-')+' '+str(opts[x])+' \\' for x in non_defaults]
+    header += '\n'.join(options).replace('True','').replace('False','')
+    header = header[0:-1]+'\n'
+    return header
